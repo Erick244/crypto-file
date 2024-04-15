@@ -1,5 +1,6 @@
 import { HomeLayout } from "@/components/layouts/HomeLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps) {
                     disableTransitionOnChange
                 >
                     <HomeLayout>{children}</HomeLayout>
+                    <Toaster />
                 </ThemeProvider>
             </body>
         </html>
