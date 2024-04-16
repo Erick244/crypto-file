@@ -1,5 +1,6 @@
 "use client";
 
+import { useFilesContext } from "@/contexts/FilesContext";
 import { FilesIcon, PlayIcon } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "../ui/button";
@@ -8,6 +9,8 @@ import { toast } from "../ui/use-toast";
 
 export function FilesForm() {
     const [files, setFiles] = useState<FileList | null>(null);
+    const { setPendingFiles, setCompletedFiles, setActiveFile } =
+        useFilesContext();
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         const filesData = e.target.files;
@@ -35,6 +38,9 @@ export function FilesForm() {
             return;
         }
 
+        setPendingFiles(files);
+        setCompletedFiles(files);
+        setActiveFile(files[0]);
         console.log(files);
     }
 
