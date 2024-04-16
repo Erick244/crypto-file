@@ -9,12 +9,14 @@ import {
 } from "react";
 
 interface FilesContextProps {
-    pendingFiles: FileList | null;
-    setPendingFiles: Dispatch<SetStateAction<FileList | null>>;
-    completedFiles: FileList | null;
-    setCompletedFiles: Dispatch<SetStateAction<FileList | null>>;
+    pendingFiles: File[] | null;
+    setPendingFiles: Dispatch<SetStateAction<File[] | null>>;
+    completedFiles: File[] | null;
+    setCompletedFiles: Dispatch<SetStateAction<File[] | null>>;
     activeFile: File | null;
     setActiveFile: Dispatch<SetStateAction<File | null>>;
+    activeFileProgress: number;
+    setActiveFileProgress: Dispatch<SetStateAction<number>>;
 }
 
 const FilesContext = createContext({} as FilesContextProps);
@@ -24,9 +26,12 @@ export default function FilesContextProvider({
 }: {
     children: React.ReactNode;
 }) {
-    const [pendingFiles, setPendingFiles] = useState<FileList | null>(null);
-    const [completedFiles, setCompletedFiles] = useState<FileList | null>(null);
+    // TODO: Se não criar nenhum método substituir pelo Jotai
+
+    const [pendingFiles, setPendingFiles] = useState<File[] | null>(null);
+    const [completedFiles, setCompletedFiles] = useState<File[] | null>(null);
     const [activeFile, setActiveFile] = useState<File | null>(null);
+    const [activeFileProgress, setActiveFileProgress] = useState<number>(0);
 
     return (
         <FilesContext.Provider
@@ -37,6 +42,8 @@ export default function FilesContextProvider({
                 setActiveFile,
                 setCompletedFiles,
                 setPendingFiles,
+                activeFileProgress,
+                setActiveFileProgress,
             }}
         >
             {children}

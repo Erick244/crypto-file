@@ -17,14 +17,6 @@ import { Loader } from "../utils/Loader";
 export function FIles() {
     const { pendingFiles, activeFile, completedFiles } = useFilesContext();
 
-    const pendingFilesArray = pendingFiles
-        ? Array.prototype.slice.call(pendingFiles)
-        : null;
-
-    const completedFilesArray = completedFiles
-        ? Array.prototype.slice.call(completedFiles)
-        : null;
-
     return (
         <div className="w-full space-y-10">
             <H2>Active</H2>
@@ -35,7 +27,7 @@ export function FIles() {
                             <File.Content.Title>
                                 {activeFile.name}
                             </File.Content.Title>
-                            <Progress value={43} />
+                            <Progress value={30} />
                         </File.Content.Root>
 
                         <TooltipProvider>
@@ -57,15 +49,15 @@ export function FIles() {
             )}
 
             <H2>Pending</H2>
-            {pendingFilesArray ? (
-                pendingFilesArray.map((file: File, i) => (
+            {pendingFiles ? (
+                pendingFiles.map((file: File, i) => (
                     <File.Root key={i}>
                         <File.Container>
                             <File.Content.Root>
                                 <File.Content.Title>
                                     {file.name}
                                 </File.Content.Title>
-                                <Progress value={43} />
+                                <Progress value={0} />
                             </File.Content.Root>
 
                             <TooltipProvider>
@@ -88,15 +80,15 @@ export function FIles() {
             )}
 
             <H2>Completed</H2>
-            {completedFilesArray ? (
-                completedFilesArray.map((file: File, i) => (
+            {completedFiles ? (
+                completedFiles.map((file: File, i) => (
                     <File.Root key={i}>
                         <File.Container>
                             <File.Content.Root>
                                 <File.Content.Title>
                                     {file.name}
                                 </File.Content.Title>
-                                <Progress value={43} />
+                                <Progress value={100} />
                             </File.Content.Root>
 
                             <TooltipProvider>

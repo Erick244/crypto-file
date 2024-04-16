@@ -8,22 +8,25 @@ import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
 
 export function FilesForm() {
-    const [files, setFiles] = useState<FileList | null>(null);
+    const [files, setFiles] = useState<File[] | null>(null);
     const { setPendingFiles, setCompletedFiles, setActiveFile } =
         useFilesContext();
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         const filesData = e.target.files;
+        const filesArray = filesData
+            ? (Array.prototype.slice.call(filesData) as File[])
+            : null;
 
-        if (filesNotSelected(filesData)) {
+        if (filesNotSelected(filesArray)) {
             setFiles(null);
             return;
         }
 
-        setFiles(filesData);
+        setFiles(filesArray);
     }
 
-    function filesNotSelected(files: FileList | null) {
+    function filesNotSelected(files: File[] | null) {
         return !files || files.length < 1;
     }
 
