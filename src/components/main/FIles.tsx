@@ -15,10 +15,48 @@ import { H2 } from "../ui/typography/H2";
 import { Loader } from "../utils/Loader";
 
 export function FIles() {
-    const { pendingFiles, activeFile, completedFiles } = useFilesContext();
+    const { pendingFiles, activeFile, completedFiles, activeFileProgress } =
+        useFilesContext();
 
     return (
         <div className="w-full space-y-10">
+            <H2>Completed</H2>
+            {completedFiles ? (
+                completedFiles.map((completedFile, i) => (
+                    <File.Root key={i}>
+                        <File.Container>
+                            <File.Content.Root>
+                                <File.Content.Title>
+                                    {completedFile.file?.name}
+                                </File.Content.Title>
+                                <Progress value={100} />
+                            </File.Content.Root>
+
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <CryptoLink
+                                            href={
+                                                completedFile.downloadLink || ""
+                                            }
+                                            target="_blank"
+                                            download
+                                        >
+                                            <DownloadIcon className="w-4 h-4" />
+                                        </CryptoLink>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Download</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </File.Container>
+                    </File.Root>
+                ))
+            ) : (
+                <NoFilesMessage>No files completed.</NoFilesMessage>
+            )}
+
             <H2>Active</H2>
             {activeFile ? (
                 <File.Root>
@@ -27,7 +65,7 @@ export function FIles() {
                             <File.Content.Title>
                                 {activeFile.name}
                             </File.Content.Title>
-                            <Progress value={30} />
+                            <Progress value={activeFileProgress} />
                         </File.Content.Root>
 
                         <TooltipProvider>
@@ -77,37 +115,6 @@ export function FIles() {
                 ))
             ) : (
                 <NoFilesMessage>No files pending.</NoFilesMessage>
-            )}
-
-            <H2>Completed</H2>
-            {completedFiles ? (
-                completedFiles.map((file: File, i) => (
-                    <File.Root key={i}>
-                        <File.Container>
-                            <File.Content.Root>
-                                <File.Content.Title>
-                                    {file.name}
-                                </File.Content.Title>
-                                <Progress value={100} />
-                            </File.Content.Root>
-
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <CryptoLink href={"#"}>
-                                            <DownloadIcon className="w-4 h-4" />
-                                        </CryptoLink>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Download</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </File.Container>
-                    </File.Root>
-                ))
-            ) : (
-                <NoFilesMessage>No files completed.</NoFilesMessage>
             )}
         </div>
     );

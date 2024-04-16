@@ -11,8 +11,8 @@ import {
 interface FilesContextProps {
     pendingFiles: File[] | null;
     setPendingFiles: Dispatch<SetStateAction<File[] | null>>;
-    completedFiles: File[] | null;
-    setCompletedFiles: Dispatch<SetStateAction<File[] | null>>;
+    completedFiles: CompletedFile[] | null;
+    setCompletedFiles: Dispatch<SetStateAction<CompletedFile[] | null>>;
     activeFile: File | null;
     setActiveFile: Dispatch<SetStateAction<File | null>>;
     activeFileProgress: number;
@@ -21,6 +21,11 @@ interface FilesContextProps {
 
 const FilesContext = createContext({} as FilesContextProps);
 
+type CompletedFile = {
+    file: File | null;
+    downloadLink: string | null;
+};
+
 export default function FilesContextProvider({
     children,
 }: {
@@ -28,8 +33,10 @@ export default function FilesContextProvider({
 }) {
     // TODO: Se não criar nenhum método substituir pelo Jotai
 
+    const [completedFiles, setCompletedFiles] = useState<
+        CompletedFile[] | null
+    >(null);
     const [pendingFiles, setPendingFiles] = useState<File[] | null>(null);
-    const [completedFiles, setCompletedFiles] = useState<File[] | null>(null);
     const [activeFile, setActiveFile] = useState<File | null>(null);
     const [activeFileProgress, setActiveFileProgress] = useState<number>(0);
 

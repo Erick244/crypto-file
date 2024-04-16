@@ -1,3 +1,4 @@
+import { writeFileSync } from "fs";
 import { getCipher } from "../crypto";
 
 export async function POST(req: Request, res: Response) {
@@ -12,9 +13,11 @@ export async function POST(req: Request, res: Response) {
         cipher.final(),
     ]);
 
-    const encryptedBase64 = encryptedFile.toString("base64");
+    const fileName = `${file.name}_${Date.now()}_crypto-file`;
+    const path = `./public/encrypted-files/${fileName}`;
+    writeFileSync(path, encryptedFile);
 
     return Response.json({
-        encrypted: `data:application/octet-stream;base64,${encryptedBase64}`,
+        encrypted: `encrypted-files/${fileName}`,
     });
 }

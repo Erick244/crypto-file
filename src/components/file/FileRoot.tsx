@@ -10,7 +10,10 @@ export function FileRoot({ children, ...props }: FileRootProps) {
     return (
         <div
             {...props}
-            className={cn("w-full flex items-end gap-1", props.className)}
+            className={cn(
+                "w-full flex items-end gap-1 animate-scale-in-ver-bottom",
+                props.className
+            )}
         >
             <FileIcon className="w-9 h-9 flex-shrink-0" strokeWidth={1} />
             {children}
