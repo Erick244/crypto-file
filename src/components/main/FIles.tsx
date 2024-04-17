@@ -1,7 +1,19 @@
 "use client";
 
-import { useFilesContext } from "@/contexts/FilesContext";
-import { CircleIcon, DownloadIcon } from "lucide-react";
+import {
+    activeEncryptedFileAtom,
+    activeEncryptedFileProgressAtom,
+    completedEncryptedFilesAtom,
+    pendingEncryptedFilesAtom,
+} from "@/atoms/encrypt-files.atom";
+import { useAtomValue } from "jotai";
+import {
+    CircleIcon,
+    CpuIcon,
+    DownloadIcon,
+    FileCheckIcon,
+    LoaderIcon,
+} from "lucide-react";
 import { File } from "../file";
 import { CryptoLink } from "../ui/link";
 import { Progress } from "../ui/progress";
@@ -14,15 +26,23 @@ import {
 import { H2 } from "../ui/typography/H2";
 import { Loader } from "../utils/Loader";
 
-export function FIles() {
-    const { pendingFiles, activeFile, completedFiles, activeFileProgress } =
-        useFilesContext();
+export function Files() {
+    // TODO: Componentzation this
+
+    const pendingEncryptedFiles = useAtomValue(pendingEncryptedFilesAtom);
+    const activeEncryptedFile = useAtomValue(activeEncryptedFileAtom);
+    const completedEncryptedFiles = useAtomValue(completedEncryptedFilesAtom);
+    const activeEncryptedFileProgress = useAtomValue(
+        activeEncryptedFileProgressAtom
+    );
 
     return (
         <div className="w-full space-y-10">
-            <H2>Completed</H2>
-            {completedFiles ? (
-                completedFiles.map((completedFile, i) => (
+            <H2 className="flex justify-between items-center">
+                Completed <FileCheckIcon />
+            </H2>
+            {completedEncryptedFiles ? (
+                completedEncryptedFiles.map((completedFile, i) => (
                     <File.Root key={i}>
                         <File.Container>
                             <File.Content.Root>
@@ -57,15 +77,17 @@ export function FIles() {
                 <NoFilesMessage>No files completed.</NoFilesMessage>
             )}
 
-            <H2>Active</H2>
-            {activeFile ? (
+            <H2 className="flex justify-between items-center">
+                Active <CpuIcon />
+            </H2>
+            {activeEncryptedFile ? (
                 <File.Root>
                     <File.Container>
                         <File.Content.Root>
                             <File.Content.Title>
-                                {activeFile.name}
+                                {activeEncryptedFile.name}
                             </File.Content.Title>
-                            <Progress value={activeFileProgress} />
+                            <Progress value={activeEncryptedFileProgress} />
                         </File.Content.Root>
 
                         <TooltipProvider>
@@ -86,9 +108,11 @@ export function FIles() {
                 <NoFilesMessage>No files in working.</NoFilesMessage>
             )}
 
-            <H2>Pending</H2>
-            {pendingFiles ? (
-                pendingFiles.map((file: File, i) => (
+            <H2 className="flex justify-between items-center">
+                Pending <LoaderIcon />
+            </H2>
+            {pendingEncryptedFiles ? (
+                pendingEncryptedFiles.map((file: File, i) => (
                     <File.Root key={i}>
                         <File.Container>
                             <File.Content.Root>

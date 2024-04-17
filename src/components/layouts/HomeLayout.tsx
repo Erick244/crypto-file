@@ -1,6 +1,7 @@
 import FilesContextProvider from "@/contexts/FilesContext";
 import { Github } from "lucide-react";
 import { Header } from "../header";
+import { HeaderLinks } from "../header/utils/HeaderLinks";
 import { CryptoLink } from "../ui/link";
 import { ModeToggle } from "../ui/mode-toogle";
 import { Logo } from "../utils/Logo";
@@ -15,8 +16,7 @@ export function HomeLayout({ children }: HomeLayoutProps) {
             <Header.Root>
                 <Logo href="/" />
                 <div className="flex items-center gap-10">
-                    <Header.Link href={"/"}>Encrypt</Header.Link>
-                    <Header.Link href={"/decrypt"}>Decrypt</Header.Link>
+                    <HeaderLinks />
                     <ModeToggle />
                 </div>
             </Header.Root>

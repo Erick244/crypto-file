@@ -1,6 +1,12 @@
 "use client";
 
-import { useFilesContext } from "@/contexts/FilesContext";
+import {
+    activeEncryptedFileAtom,
+    activeEncryptedFileProgressAtom,
+    completedEncryptedFilesAtom,
+    pendingEncryptedFilesAtom,
+} from "@/atoms/encrypt-files.atom";
+import { useAtom, useSetAtom } from "jotai";
 import { FilesIcon, PlayIcon } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "../ui/button";
@@ -11,15 +17,19 @@ interface FilesFormProps {
     postUrl: string;
 }
 
+// TODO: Clean CODE
+
 export function FilesForm({ postUrl }: FilesFormProps) {
     const [files, setFiles] = useState<File[] | null>(null);
-    const {
-        setPendingFiles,
-        setCompletedFiles,
-        setActiveFile,
-        setActiveFileProgress,
-        activeFile,
-    } = useFilesContext();
+
+    const [activeEncryptedFile, setActiveEncryptedFile] = useAtom(
+        activeEncryptedFileAtom
+    );
+    const setPendingEncryptedFiles = useSetAtom(pendingEncryptedFilesAtom);
+    const setCompletedEncryptedFiles = useSetAtom(completedEncryptedFilesAtom);
+    const setActiveEncryptedFileProgress = useSetAtom(
+        activeEncryptedFileProgressAtom
+    );
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         const filesData = e.target.files;
@@ -50,15 +60,15 @@ export function FilesForm({ postUrl }: FilesFormProps) {
             return;
         }
 
-        setPendingFiles(files);
+        setPendingEncryptedFiles(files);
 
         for (const file of files) {
             console.log("EXEC - FOR");
 
             updatePendingFiles();
 
-            setActiveFileProgress(0);
-            setActiveFile(file);
+            setActiveEncryptedFileProgress(0);
+            setActiveEncryptedFile(file);
 
             const calcInterval = calcActiveFileProgress();
 
@@ -77,20 +87,42 @@ export function FilesForm({ postUrl }: FilesFormProps) {
             addNewCompletedFile(file, downloadLink);
 
             clearInterval(calcInterval);
-            setActiveFileProgress(100);
+            setActiveEncryptedFileProgress(100);
 
-            setActiveFile(null);
+            setActiveEncryptedFile(null);
+
+            const fiveMinutesInMs = 60 * 60 * 5 * 1000;
+            setTimeout(() => {
+                updateCompletedFiles();
+                toast({
+                    title: file.name,
+                    description: "Deleted after 5 minutes.",
+                });
+            }, 10000); // TODO: Change
         }
     }
 
     function updatePendingFiles() {
-        setPendingFiles((pendingFiles) => {
+        setPendingEncryptedFiles((pendingFiles) => {
             const pendingFilesClone = pendingFiles ? [...pendingFiles] : [];
 
             const currentFileIndex = 0;
             pendingFilesClone.splice(currentFileIndex, 1);
 
             return pendingFilesClone.length < 1 ? null : pendingFilesClone;
+        });
+    }
+
+    function updateCompletedFiles() {
+        setCompletedEncryptedFiles((completedFiles) => {
+            const completedFilesClone = completedFiles
+                ? [...completedFiles]
+                : [];
+
+            const currentFileIndex = 0;
+            completedFilesClone.splice(currentFileIndex, 1);
+
+            return completedFilesClone.length < 1 ? null : completedFilesClone;
         });
     }
 
@@ -101,14 +133,14 @@ export function FilesForm({ postUrl }: FilesFormProps) {
         return setInterval(() => {
             const elapsedTime = Date.now() - startTime;
             const totalProgress = elapsedTime / 20;
-            setActiveFileProgress(Math.min(totalProgress, 100));
+            setActiveEncryptedFileProgress(Math.min(totalProgress, 100));
 
             console.log("EXEC - INTERVAL");
         }, intervalTime);
     }
 
     function addNewCompletedFile(file: File, downloadLink: string) {
-        setCompletedFiles((completedFiles) => {
+        setCompletedEncryptedFiles((completedFiles) => {
             const completedFilesClone = completedFiles
                 ? [...completedFiles]
                 : [];
@@ -151,7 +183,7 @@ export function FilesForm({ postUrl }: FilesFormProps) {
             </div>
 
             <Button
-                disabled={!!activeFile}
+                disabled={!!activeEncryptedFile}
                 type="submit"
                 className="px-20 relative group overflow-hidden"
                 aria-label="Send"

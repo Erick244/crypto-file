@@ -1,5 +1,5 @@
 import { HomeLayout } from "@/components/layouts/HomeLayout";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -30,15 +30,10 @@ export default function RootLayout({ children }: LayoutProps) {
                     fontSans.variable
                 )}
             >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
+                <Providers>
                     <HomeLayout>{children}</HomeLayout>
                     <Toaster />
-                </ThemeProvider>
+                </Providers>
             </body>
         </html>
     );
