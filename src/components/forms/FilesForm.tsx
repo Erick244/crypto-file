@@ -7,7 +7,11 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
 
-export function FilesForm() {
+interface FilesFormProps {
+    postUrl: string;
+}
+
+export function FilesForm({ postUrl }: FilesFormProps) {
     const [files, setFiles] = useState<File[] | null>(null);
     const {
         setPendingFiles,
@@ -61,14 +65,14 @@ export function FilesForm() {
             const formData = new FormData();
             formData.append("file", file);
 
-            const resp = await fetch("http://localhost:3000/api/encrypt", {
+            const resp = await fetch(`http://localhost:3000/${postUrl}`, {
                 method: "POST",
                 body: formData,
             });
 
             await fakeDelay(1000);
             const data = await resp.json();
-            const downloadLink = data.encrypted;
+            const downloadLink = data.downloadLink;
 
             addNewCompletedFile(file, downloadLink);
 

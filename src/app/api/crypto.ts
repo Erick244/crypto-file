@@ -1,8 +1,8 @@
-import { createCipheriv, createDecipheriv, randomBytes, scrypt } from "crypto";
+import { createCipheriv, createDecipheriv, scrypt } from "crypto";
 import { promisify } from "util";
 
-const iv = randomBytes(16);
-const password = ">DWA^>d12234403DÂWÇDOL!";
+const password = process.env.CRYPTO_PASSWORD || "";
+const iv = Buffer.from(process.env.CRYPTO_IV || "", "utf-8");
 
 export async function getCipher() {
     const key = await getKey();

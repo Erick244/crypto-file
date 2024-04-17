@@ -1,3 +1,4 @@
+import FilesContextProvider from "@/contexts/FilesContext";
 import { Github } from "lucide-react";
 import { Header } from "../header";
 import { CryptoLink } from "../ui/link";
@@ -14,12 +15,14 @@ export function HomeLayout({ children }: HomeLayoutProps) {
             <Header.Root>
                 <Logo href="/" />
                 <div className="flex items-center gap-10">
-                    <Header.Link href={"#"}>Encrypt</Header.Link>
-                    <Header.Link href={"#"}>Decrypt</Header.Link>
+                    <Header.Link href={"/"}>Encrypt</Header.Link>
+                    <Header.Link href={"/decrypt"}>Decrypt</Header.Link>
                     <ModeToggle />
                 </div>
             </Header.Root>
-            <main className="py-10 w-full">{children}</main>
+            <main className="py-10 w-full">
+                <FilesContextProvider>{children}</FilesContextProvider>
+            </main>
             <GithubLink />
         </div>
     );

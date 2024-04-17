@@ -1,6 +1,7 @@
+import { writeFileSync } from "fs";
 import { getDecipher } from "../crypto";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
     const formData = await req.formData();
     const encryptedFile = formData.get("file") as File;
 
@@ -12,9 +13,14 @@ export async function POST(req: Request, res: Response) {
         decipher.final(),
     ]);
 
-    const decryptedBase64 = decryptedFile.toString("base64");
+    const fileName = `decrypted-file_${Date.now()}_${encryptedFile.name.replace(
+        /_\d+_crypto-file/,
+        ""
+    )}`;
+    const path = `./public/decrypted-files/${fileName}`;
+    writeFileSync(path, decryptedFile);
 
     return Response.json({
-        decrypted: `data:application/octet-stream;base64,${decryptedBase64}`,
+        downloadLink: `decrypted-files/${fileName}`,
     });
 }

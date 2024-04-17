@@ -18,6 +18,6 @@ export async function POST(req: Request, res: Response) {
     writeFileSync(path, encryptedFile);
 
     return Response.json({
-        encrypted: `encrypted-files/${fileName}`,
+        downloadLink: `encrypted-files/${fileName}`,
     });
 }
