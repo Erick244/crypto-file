@@ -27,6 +27,7 @@ export function EncryptedFilesForm() {
     const [activeEncryptedFile, setActiveEncryptedFile] = useAtom(
         activeEncryptedFileAtom
     );
+
     const setPendingEncryptedFiles = useSetAtom(pendingEncryptedFilesAtom);
     const setCompletedEncryptedFiles = useSetAtom(completedEncryptedFilesAtom);
     const setActiveEncryptedFileProgress = useSetAtom(
@@ -92,7 +93,9 @@ export function EncryptedFilesForm() {
                 label="Select or drop the files for encrypt."
                 selectedFilesCount={selectedFiles ? selectedFiles.length : 0}
             />
-            <FilesForm.SubmitButton disabled={!!activeEncryptedFile}>
+            <FilesForm.SubmitButton
+                disabled={!!activeEncryptedFile || !selectedFiles}
+            >
                 Start
             </FilesForm.SubmitButton>
         </FilesForm.Root>
