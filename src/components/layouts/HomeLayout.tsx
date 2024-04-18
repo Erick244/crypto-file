@@ -1,9 +1,9 @@
 import FilesContextProvider from "@/contexts/FilesContext";
-import { Github } from "lucide-react";
 import { Header } from "../header";
 import { HeaderLinks } from "../header/utils/HeaderLinks";
-import { CryptoLink } from "../ui/link";
+import { ResponsiveMenu } from "../menu/ResponsiveMenu";
 import { ModeToggle } from "../ui/mode-toogle";
+import { GithubLink } from "../utils/GithubLink";
 import { Logo } from "../utils/Logo";
 
 interface HomeLayoutProps {
@@ -16,26 +16,17 @@ export function HomeLayout({ children }: HomeLayoutProps) {
             <Header.Root>
                 <Logo href="/" />
                 <div className="flex items-center gap-10">
-                    <HeaderLinks />
+                    <div className="md:flex items-center gap-10 hidden">
+                        <HeaderLinks />
+                    </div>
                     <ModeToggle />
                 </div>
             </Header.Root>
             <main className="py-10 w-full">
                 <FilesContextProvider>{children}</FilesContextProvider>
             </main>
-            <GithubLink />
+            <ResponsiveMenu />
+            <GithubLink className="hidden md:block" />
         </div>
-    );
-}
-
-function GithubLink() {
-    return (
-        <CryptoLink
-            className="p-2 xl:fixed bottom-10 left-5"
-            href="https://github.com/Erick244/crypto-file"
-            target="_blank"
-        >
-            <Github />
-        </CryptoLink>
     );
 }

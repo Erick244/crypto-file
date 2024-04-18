@@ -12,7 +12,7 @@ export function HeaderLink({ children, isActive, ...props }: HeaderLinkProps) {
         <Link
             {...props}
             className={cn(
-                "relative border-b-2 border-foreground p-2 group overflow-hidden",
+                "relative border-b-2 border-foreground p-2 group overflow-hidden text-sm md:text-base",
                 props.className
             )}
         >
