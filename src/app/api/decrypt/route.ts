@@ -15,7 +15,7 @@ export async function POST(req: Request) {
             decipher.final(),
         ]);
 
-        const extractSimpleNameRegex = /_\d+_crypto-file/;
+        const extractSimpleNameRegex = /_\d+_crypto-file/; // Extract what is in quotation marks: file-name.txt"_123_crypto-file"
         const simpleFileName = encryptedFile.name.replace(
             extractSimpleNameRegex,
             ""
