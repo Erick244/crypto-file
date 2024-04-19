@@ -107,6 +107,17 @@ const config = {
                         opacity: "1",
                     },
                 },
+                marquee: {
+                    "0%": {
+                        transform: "translateX(0)",
+                    },
+                    "50%": {
+                        transform: "translateX(0)",
+                    },
+                    "100%": {
+                        transform: "translateX(-100%)",
+                    },
+                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
@@ -116,6 +127,7 @@ const config = {
                     "scale-in-ver-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
                 "focus-in-expand":
                     "focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+                marquee: "marquee 5s linear infinite alternate",
             },
         },
     },

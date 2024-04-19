@@ -9,11 +9,14 @@ export function FileContentTitle({
     children,
     ...props
 }: FileContentTitleProps) {
+    const textLength = (children as string).length;
+
     return (
         <div
             {...props}
             className={cn(
-                "font-mono text-xs w-10 text-nowrap",
+                "font-mono text-xs w-80 whitespace-nowrap sm:animate-none",
+                textLength >= 60 ? "animate-marquee" : "animate-none",
                 props.className
             )}
         >
