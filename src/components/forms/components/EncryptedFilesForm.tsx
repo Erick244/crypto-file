@@ -75,14 +75,14 @@ export function EncryptedFilesForm() {
 
             setActiveEncryptedFile(null);
 
-            // const fiveMinutesInMs = 60 * 60 * 5 * 1000;
-            // setTimeout(() => {
-            //     setCompletedEncryptedFiles(removeActiveFileFrom);
-            //     toast({
-            //         title: file.name,
-            //         description: "Deleted after 5 minutes.",
-            //     });
-            // }, 10000); // TODO: Change
+            const fiveMinutesInMs = 60 * 60 * 5 * 1000;
+            setTimeout(() => {
+                setCompletedEncryptedFiles(removeActiveFileFrom);
+                toast({
+                    title: file.name,
+                    description: "Deleted after 5 minutes.",
+                });
+            }, 10000); // TODO: Change
         }
     }
 
