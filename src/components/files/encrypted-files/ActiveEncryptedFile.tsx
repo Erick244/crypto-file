@@ -26,8 +26,8 @@ export function ActiveEncryptedFile() {
     );
 
     return (
-        <>
-            <H2 className="flex justify-between items-center">
+        <div className="relative space-y-10">
+            <H2 className="flex justify-between items-center sticky top-20 bottom-0">
                 Active <CpuIcon />
             </H2>
             {activeEncryptedFile ? (
@@ -57,6 +57,6 @@ export function ActiveEncryptedFile() {
             ) : (
                 <NoFilesMessage>No files in working.</NoFilesMessage>
             )}
-        </>
+        </div>
     );
 }

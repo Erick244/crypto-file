@@ -19,8 +19,8 @@ export function PendingEncryptedFiles() {
     const pendingEncryptedFiles = useAtomValue(pendingEncryptedFilesAtom);
 
     return (
-        <>
-            <H2 className="flex justify-between items-center">
+        <div className="relative space-y-10">
+            <H2 className="flex justify-between items-center sticky top-20 bottom-0">
                 Pending <LoaderIcon />
             </H2>
             {pendingEncryptedFiles ? (
@@ -52,6 +52,6 @@ export function PendingEncryptedFiles() {
             ) : (
                 <NoFilesMessage>No files pending.</NoFilesMessage>
             )}
-        </>
+        </div>
     );
 }
