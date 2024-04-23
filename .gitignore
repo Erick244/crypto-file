@@ -37,4 +37,3 @@ next-env.d.ts
 
 /public/encrypted-files/**
 /public/decrypted-files/**
-/cypress/e2e/test-files/**
