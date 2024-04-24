@@ -10,19 +10,19 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { H2 } from "@/components/ui/typography/H2";
 import { useAtomValue } from "jotai";
 import { DownloadIcon, FileCheckIcon } from "lucide-react";
+import { FilesTitle } from "../utils/FilesTitle";
 import { NoFilesMessage } from "../utils/NoFilesMessage";
 
 export function CompletedDecryptedFiles() {
     const completedDecryptedFiles = useAtomValue(completedDecryptedFilesAtom);
 
     return (
-        <>
-            <H2 className="flex justify-between items-center">
+        <div className="relative space-y-10">
+            <FilesTitle>
                 Completed <FileCheckIcon />
-            </H2>
+            </FilesTitle>
             {completedDecryptedFiles ? (
                 completedDecryptedFiles.map((completedFile, i) => (
                     <File.Root key={i}>
@@ -58,6 +58,6 @@ export function CompletedDecryptedFiles() {
             ) : (
                 <NoFilesMessage>No files decrypted.</NoFilesMessage>
             )}
-        </>
+        </div>
     );
 }

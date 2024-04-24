@@ -10,19 +10,19 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { H2 } from "@/components/ui/typography/H2";
 import { useAtomValue } from "jotai";
 import { CircleIcon, LoaderIcon } from "lucide-react";
+import { FilesTitle } from "../utils/FilesTitle";
 import { NoFilesMessage } from "../utils/NoFilesMessage";
 
 export function PendingDecryptedFiles() {
     const pendingDecryptedFiles = useAtomValue(pendingDecryptedFilesAtom);
 
     return (
-        <>
-            <H2 className="flex justify-between items-center">
+        <div className="relative space-y-10">
+            <FilesTitle>
                 Pending <LoaderIcon />
-            </H2>
+            </FilesTitle>
             {pendingDecryptedFiles ? (
                 pendingDecryptedFiles.map((file: File, i) => (
                     <File.Root key={i}>
@@ -52,6 +52,6 @@ export function PendingDecryptedFiles() {
             ) : (
                 <NoFilesMessage>No files pending.</NoFilesMessage>
             )}
-        </>
+        </div>
     );
 }

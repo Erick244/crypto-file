@@ -13,10 +13,10 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { H2 } from "@/components/ui/typography/H2";
 import { Loader } from "@/components/utils/Loader";
 import { useAtomValue } from "jotai";
 import { CpuIcon } from "lucide-react";
+import { FilesTitle } from "../utils/FilesTitle";
 import { NoFilesMessage } from "../utils/NoFilesMessage";
 
 export function ActiveEncryptedFile() {
@@ -27,9 +27,9 @@ export function ActiveEncryptedFile() {
 
     return (
         <div className="relative space-y-10">
-            <H2 className="flex justify-between items-center sticky top-20 bottom-0">
+            <FilesTitle>
                 Active <CpuIcon />
-            </H2>
+            </FilesTitle>
             {activeEncryptedFile ? (
                 <File.Root>
                     <File.Container>

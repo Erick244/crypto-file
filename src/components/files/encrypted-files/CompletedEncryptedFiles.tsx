@@ -10,9 +10,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { H2 } from "@/components/ui/typography/H2";
 import { useAtomValue } from "jotai";
 import { DownloadIcon, FileCheckIcon } from "lucide-react";
+import { FilesTitle } from "../utils/FilesTitle";
 import { NoFilesMessage } from "../utils/NoFilesMessage";
 
 export function CompletedEncryptedFiles() {
@@ -20,9 +20,9 @@ export function CompletedEncryptedFiles() {
 
     return (
         <div className="relative space-y-10">
-            <H2 className="flex justify-between items-center sticky top-20 bottom-0">
+            <FilesTitle>
                 Completed <FileCheckIcon />
-            </H2>
+            </FilesTitle>
             {completedEncryptedFiles ? (
                 completedEncryptedFiles.map((completedFile, i) => (
                     <File.Root key={i}>
