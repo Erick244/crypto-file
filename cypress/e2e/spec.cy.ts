@@ -1,5 +1,3 @@
-import "cypress-fs";
-
 describe("Encrypt", () => {
     it("Encrypt 1 file correct", () => {
         cy.visit("/");

@@ -23,7 +23,7 @@ export async function POST(req: Request, res: Response) {
         writeFileSync(path, encryptedFile);
 
         const fiveMinutesInMs = 60 * 60 * 5 * 1000;
-        delFileAfterTime(path, 10000); // TODO: Change
+        delFileAfterTime(path, fiveMinutesInMs);
 
         return Response.json({
             downloadLink: `encrypted-files/${fileName}`,

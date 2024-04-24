@@ -1,4 +1,3 @@
-import FilesContextProvider from "@/contexts/FilesContext";
 import { Header } from "../header";
 import { HeaderLinks } from "../header/utils/HeaderLinks";
 import { ResponsiveMenu } from "../menu/ResponsiveMenu";
@@ -22,9 +21,7 @@ export function HomeLayout({ children }: HomeLayoutProps) {
                     <ModeToggle />
                 </div>
             </Header.Root>
-            <main className="py-10 w-full">
-                <FilesContextProvider>{children}</FilesContextProvider>
-            </main>
+            <main className="py-10 w-full">{children}</main>
             <ResponsiveMenu />
             <GithubLink className="hidden md:block" />
         </div>

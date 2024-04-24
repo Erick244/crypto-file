@@ -82,7 +82,7 @@ export function EncryptedFilesForm() {
                     title: file.name,
                     description: "Deleted after 5 minutes.",
                 });
-            }, 10000); // TODO: Change
+            }, fiveMinutesInMs);
         }
     }
 
