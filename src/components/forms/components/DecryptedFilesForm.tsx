@@ -92,7 +92,9 @@ export function DecryptedFilesForm() {
                 label="Select or drop the file for decrypt."
                 selectedFilesCount={selectedFiles ? selectedFiles.length : 0}
             />
-            <FilesForm.SubmitButton disabled={!!activeDecryptedFile}>
+            <FilesForm.SubmitButton
+                disabled={!!activeDecryptedFile || !selectedFiles}
+            >
                 Start
             </FilesForm.SubmitButton>
         </FilesForm.Root>
