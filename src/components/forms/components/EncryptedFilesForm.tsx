@@ -75,7 +75,7 @@ export function EncryptedFilesForm() {
 
             setActiveEncryptedFile(null);
 
-            const fiveMinutesInMs = 60 * 60 * 5 * 1000;
+            const fiveMinutesInMs = 60000 * 5;
             setTimeout(() => {
                 setCompletedEncryptedFiles(removeActiveFileFrom);
                 toast({

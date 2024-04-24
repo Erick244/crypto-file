@@ -74,7 +74,7 @@ export function DecryptedFilesForm() {
 
             setActiveDecryptedFile(null);
 
-            const fiveMinutesInMs = 60 * 60 * 5 * 1000;
+            const fiveMinutesInMs = 60000 * 5;
             setTimeout(() => {
                 setCompletedDecryptedFiles(removeActiveFileFrom);
                 toast({

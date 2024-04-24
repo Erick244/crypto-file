@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         const path = `${foldersPath}/${fileName}`;
         writeFileSync(path, decryptedFile);
 
-        const fiveMinutesInMs = 60 * 60 * 5 * 1000;
+        const fiveMinutesInMs = 60000 * 5;
         delFileAfterTime(path, fiveMinutesInMs);
 
         return Response.json({
