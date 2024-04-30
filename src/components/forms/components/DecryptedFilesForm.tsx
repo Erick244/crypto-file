@@ -57,7 +57,7 @@ export function DecryptedFilesForm() {
             );
 
             await fakeDelay(1000);
-            const resp = await fetch(`http://localhost:3000/api/decrypt`, {
+            const resp = await fetch("/api/decrypt", {
                 method: "POST",
                 body: createActiveFileFormData(file),
             });
