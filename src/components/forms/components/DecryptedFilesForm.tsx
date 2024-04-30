@@ -63,6 +63,12 @@ export function DecryptedFilesForm() {
             });
 
             const data = await resp.json();
+
+            if (!resp.ok) {
+                toast({ title: "Decrypt Error", description: data });
+                return;
+            }
+
             const downloadLink = data.downloadLink;
 
             setCompletedDecryptedFiles((completedFiles) =>

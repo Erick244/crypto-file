@@ -1,4 +1,6 @@
 import { writeFileSync } from "fs";
+import { tmpdir } from "os";
+import path from "path";
 import { getCipher } from "../crypto";
 import { createFoldersPathIfNotExist, delFileAfterTime } from "../functions";
 
@@ -15,20 +17,26 @@ export async function POST(req: Request) {
             cipher.final(),
         ]);
 
-        const foldersPath = `./public/encrypted-files`;
+        const folderName = "encrypted-files";
+        const foldersPath = path.join(tmpdir(), folderName);
         createFoldersPathIfNotExist(foldersPath);
 
         const fileName = `${file.name}_${Date.now()}_crypto-file`;
-        const path = `${foldersPath}/${fileName}`;
-        writeFileSync(path, encryptedFile);
+        const filePath = path.join(foldersPath, fileName);
+        writeFileSync(filePath, encryptedFile);
 
         const fiveMinutesInMs = 60000 * 5;
-        delFileAfterTime(path, fiveMinutesInMs);
+        delFileAfterTime(filePath, fiveMinutesInMs);
 
         return Response.json({
-            downloadLink: `encrypted-files/${fileName}`,
+            downloadLink: `/api/download?folderName=${folderName}&fileName=${encodeURIComponent(
+                fileName
+            )}`,
         });
     } catch (e) {
-        console.error(e);
+        return new Response(
+            "An error occurred while the file was being encrypted.",
+            { status: 400 }
+        );
     }
 }

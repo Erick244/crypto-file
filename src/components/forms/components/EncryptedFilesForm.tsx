@@ -64,6 +64,12 @@ export function EncryptedFilesForm() {
             });
 
             const data = await resp.json();
+
+            if (!resp.ok) {
+                toast({ title: "Encrypt Error", description: data });
+                return;
+            }
+
             const downloadLink = data.downloadLink;
 
             setCompletedEncryptedFiles((completedFiles) =>
