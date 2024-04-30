@@ -1,6 +1,11 @@
 import { DecryptedFiles } from "@/components/files/decrypted-files";
 import { DecryptedFilesForm } from "@/components/forms/components/DecryptedFilesForm";
 import { H1 } from "@/components/ui/typography/H1";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Decrypt",
+};
 
 export default function Page() {
     return (
