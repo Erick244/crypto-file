@@ -1,8 +1,8 @@
-import { writeFileSync } from "fs";
-import { tmpdir } from "os";
-import path from "path";
+import { PrismaClient } from "@prisma/client";
 import { getCipher } from "../crypto";
-import { createFoldersPathIfNotExist, delFileAfterTime } from "../functions";
+import { showDeleteLogMessage } from "../funcitons";
+
+const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     try {
@@ -17,26 +17,37 @@ export async function POST(req: Request) {
             cipher.final(),
         ]);
 
-        const folderName = "encrypted-files";
-        const foldersPath = path.join(tmpdir(), folderName);
-        createFoldersPathIfNotExist(foldersPath);
-
         const fileName = `${file.name}_${Date.now()}_crypto-file`;
-        const filePath = path.join(foldersPath, fileName);
-        writeFileSync(filePath, encryptedFile);
+        const encryptedFileRecord = await prisma.encryptedFile.create({
+            data: {
+                fileData: encryptedFile,
+                fileName,
+                fileType: file.type,
+            },
+        });
 
         const fiveMinutesInMs = 60000 * 5;
-        delFileAfterTime(filePath, fiveMinutesInMs);
+        setTimeout(() => {
+            prisma.encryptedFile.delete({
+                where: { id: encryptedFileRecord.id },
+            });
+
+            showDeleteLogMessage({
+                fileId: encryptedFileRecord.id,
+                fileName: encryptedFileRecord.fileName,
+                title: "ENCRYPTED FILE DELETED",
+            });
+        }, fiveMinutesInMs);
 
         return Response.json({
-            downloadLink: `/api/download?folderName=${folderName}&fileName=${encodeURIComponent(
-                fileName
-            )}`,
+            downloadLink: `/api/download/encrypted-file?fileId=${encryptedFileRecord.id}`,
         });
     } catch (e) {
         return new Response(
             "An error occurred while the file was being encrypted.",
             { status: 400 }
         );
+    } finally {
+        prisma.$disconnect();
     }
 }

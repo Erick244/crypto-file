@@ -1,8 +1,8 @@
-import { writeFileSync } from "fs";
-import { tmpdir } from "os";
-import path from "path";
+import { PrismaClient } from "@prisma/client";
 import { getDecipher } from "../crypto";
-import { createFoldersPathIfNotExist, delFileAfterTime } from "../functions";
+import { showDeleteLogMessage } from "../funcitons";
+
+const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     try {
@@ -22,27 +22,37 @@ export async function POST(req: Request) {
             extractSimpleNameRegex,
             ""
         );
-
-        const folderName = "decrypted-files";
-        const foldersPath = path.join(tmpdir(), folderName);
-        createFoldersPathIfNotExist(foldersPath);
-
         const fileName = `decrypted-file_${Date.now()}_${simpleFileName}`;
-        const filePath = path.join(foldersPath, fileName);
-        writeFileSync(filePath, decryptedFile);
+        const decryptedFileRecord = await prisma.decryptedFile.create({
+            data: {
+                fileName,
+                fileType: encryptedFile.type,
+                fileData: decryptedFile,
+            },
+        });
 
         const fiveMinutesInMs = 60000 * 5;
-        delFileAfterTime(filePath, fiveMinutesInMs);
+        setTimeout(() => {
+            prisma.decryptedFile.delete({
+                where: { id: decryptedFileRecord.id },
+            });
+
+            showDeleteLogMessage({
+                fileId: decryptedFileRecord.id,
+                fileName: decryptedFileRecord.fileName,
+                title: "DECRYPTED FILE DELETED",
+            });
+        }, fiveMinutesInMs);
 
         return Response.json({
-            downloadLink: `/api/download?folderName=${folderName}&fileName=${encodeURIComponent(
-                fileName
-            )}`,
+            downloadLink: `/api/download/decrypted-file?fileId=${decryptedFileRecord.id}`,
         });
     } catch (e) {
         return new Response(
             "An error occurred while the file was being decrypted.",
             { status: 400 }
         );
+    } finally {
+        prisma.$disconnect();
     }
 }
